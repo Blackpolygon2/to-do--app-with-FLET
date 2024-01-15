@@ -1,7 +1,7 @@
 import flet as ft
 from flet import *
 from pages import homePage, TodayPage
-from pages.utils import navbar, addTask
+from pages.utils import navbar, addTask, database
 import threading
 
 def main(page: ft.Page):

@@ -1,6 +1,7 @@
 import flet as ft
 from flet import *
 #from sqlalchemy import *
+from .database import Task, engine, session
 
 def dismissed(e):
     pass
@@ -62,4 +63,15 @@ def taskAddPopupComponent():
     )
     
 def addTaskFunction():
-    pass
+    new_object = Task(taskname = "wash hands", taskdescription = "wash your hands", tasktimestart = "10:00", tasktimeend = "11:00", taskpriority = 1, istaskcompleted = False, taskdaydue = "2023-05-01", istaskreocuring = False)
+    session.add(new_object)
+    session.commit()
+
+    # Example: Querying data from the database
+    result = session.query(Task).filter_by(name='example_name').first()
+    print(result.name)
+   
+
+
+# Example: Inserting data into the database
+
