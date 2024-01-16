@@ -8,17 +8,10 @@ Base = declarative_base()
 
 # Provide the path to the existing database file
 existing_database_path = 'taskDatabase.db'
+engine = create_engine(f'sqlite:///{existing_database_path}', echo=True)
 
-engine = create_engine('sqlite:///your_database.db', echo=True)
 
-# Create the table
-Base.metadata.create_all(engine)
 
-# Create a session to interact with the database
-Session = sessionmaker(bind=engine)
-session = Session()
-
-    # Define the Task class
 class Task(Base):
     __tablename__ = 'Task'
     id = Column(Integer, Sequence('task_id_seq'), primary_key=True)
@@ -59,3 +52,11 @@ class User(Base):
     setting = Column(JSON)
     taskdatemade = Column(DateTime, default=datetime.utcnow) 
         # Add other columns as needed
+if not os.path.exists(existing_database_path):
+    print(f"Error: The database file '{existing_database_path}' does not exist.")
+    Base.metadata.create_all(engine)
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+    

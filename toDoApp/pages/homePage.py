@@ -9,7 +9,7 @@ def home():
                     [
                         
                        
-                        taskAddPopupComponent()
+                        #taskAddPopupComponent()
                         ]) 
             ]
         )

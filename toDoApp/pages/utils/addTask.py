@@ -1,6 +1,6 @@
 import flet as ft
 from flet import *
-#from sqlalchemy import *
+from sqlalchemy import *
 from .database import Task, engine, session
 
 def dismissed(e):
@@ -68,8 +68,8 @@ def addTaskFunction():
     session.commit()
 
     # Example: Querying data from the database
-    result = session.query(Task).filter_by(name='example_name').first()
-    print(result.name)
+    result = session.query(Task).filter_by(taskname='wash hands')
+    print(result)
    
 
 
