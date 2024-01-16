@@ -34,7 +34,7 @@ date_picker = DatePicker(
 
  
 
-def taskAddPopupComponent():
+def taskAddPopupColumn():
 
     return Column(
         [
@@ -60,6 +60,18 @@ def taskAddPopupComponent():
            
            
         ]
+    )
+def bs_dismissed(e):
+    pass    
+def PopupAddTaskBottomSheet():
+    print("hello")
+    return BottomSheet(
+        ft.Container(
+            content=taskAddPopupColumn()
+            
+        ),
+        open=True,
+        on_dismiss=bs_dismissed,
     )
     
 def addTaskFunction():

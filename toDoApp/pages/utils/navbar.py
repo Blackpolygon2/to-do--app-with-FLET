@@ -8,13 +8,8 @@ def changePage(indexcontrol,navigation):
         
         my_index = indexcontrol.control.selected_index
         print(my_index)
-        if my_index == 0 :navigation( 0)
-            #
-        if my_index == 1 : navigation( 1)
-            #page.go("/store")
-        if my_index == 2 : addTaskFunction()
-        if my_index == 3 : pass
-        if my_index == 5 : pass    
+        navigation( my_index)
+ 
         
 def navbar(navigation):
     return ft.NavigationBar(
