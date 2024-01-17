@@ -21,7 +21,7 @@ def main(page: ft.Page):
                         #navbar.navbar(page,go_to()),  
             )
         if page_index == 1:
-            print("todaY")
+            print("today")
             page.add(
                         AppBar(title=Text("Today")),
                         TodayPage.today(),

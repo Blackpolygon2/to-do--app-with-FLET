@@ -1,6 +1,6 @@
 import flet as ft
 from flet import *
-from sqlalchemy import *
+import sqlalchemy
 from .database import Task, engine, session
 
 def dismissed(e):
@@ -31,23 +31,27 @@ date_picker = DatePicker(
         on_change=change_date,
         on_dismiss=dismissed,
     )
-
+pichtimebutton = ButtonStyle(
+    color={
+        
+    },
+    shape=RoundedRectangleBorder(radius=5),
+    
+)
  
 
 def taskAddPopupColumn():
 
     return Column(
-        [
-           Text("Task Title"), 
-           TextField(),
-           Text("Task Description (Optional)"),
-           TextField(),
+        [ 
+           TextField(label='Task Title', autofocus=True),
+           TextField(label="Task Description (Optional)"),
            Row(
                [
-                   FilledTonalButton(text="pick Due Date",on_click=lambda _: date_picker.pick_date()),
-                   FilledTonalButton(text="pick Due Time", on_click=lambda _: time_picker_for_due_time.pick_time()),
-                   FilledTonalButton(text="pick Start time", on_click=lambda _: time_picker_for_start_time.pick_time())
-               ]
+                   OutlinedButton(text="pick Due Date",on_click=lambda _: date_picker.pick_date(), style=pichtimebutton),
+                   OutlinedButton(text="pick Due Time", on_click=lambda _: time_picker_for_due_time.pick_time(), style=pichtimebutton),
+                   OutlinedButton(text="pick Start time", on_click=lambda _: time_picker_for_start_time.pick_time(), style=pichtimebutton)
+               ], alignment=MainAxisAlignment.CENTER,spacing=10
            ),
            Text("Priority"),
            Row(
@@ -55,11 +59,11 @@ def taskAddPopupColumn():
                    FilledTonalButton("Low",on_click=choose_priority(1)),
                    FilledTonalButton("Medium",on_click=choose_priority(2)),
                    FilledTonalButton("High",on_click=choose_priority(3))
-               ]
+               ],alignment=MainAxisAlignment.CENTER,spacing=10
            ),
            
            
-        ]
+        ],spacing=30
     )
 def bs_dismissed(e):
     pass    
@@ -67,8 +71,8 @@ def PopupAddTaskBottomSheet():
     print("hello")
     return BottomSheet(
         ft.Container(
-            content=taskAddPopupColumn()
-            
+            content=taskAddPopupColumn(),
+            padding=15,
         ),
         open=True,
         on_dismiss=bs_dismissed,
