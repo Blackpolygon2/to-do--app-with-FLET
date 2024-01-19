@@ -61,7 +61,7 @@ def taskAddPopupColumn():
                    FilledTonalButton("High",on_click=choose_priority(3))
                ],alignment=MainAxisAlignment.CENTER,spacing=10
            ),
-           
+           IconButton(icon=icons.CHECK, on_click=addTaskFunction),
            
         ],spacing=30
     )
