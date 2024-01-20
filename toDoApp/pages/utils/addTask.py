@@ -54,13 +54,14 @@ def taskAddPopupColumn():
                ], alignment=MainAxisAlignment.CENTER,spacing=10
            ),
            Text("Priority"),
-           Row(
+           Container(content= Row(
                [
                    FilledTonalButton("Low",on_click=choose_priority(1)),
                    FilledTonalButton("Medium",on_click=choose_priority(2)),
                    FilledTonalButton("High",on_click=choose_priority(3))
                ],alignment=MainAxisAlignment.CENTER,spacing=10
-           ),
+           ),  bgcolor="#6a7a67"),
+          
            IconButton(icon=icons.CHECK, on_click=addTaskFunction),
            
         ],spacing=30
