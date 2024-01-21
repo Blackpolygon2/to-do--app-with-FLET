@@ -29,8 +29,9 @@ def main(page: ft.Page):
             )
         if page_index == 2:
             print("task")
-            taskAddPopUp= addTask.PopupAddTaskBottomSheet()
+            taskAddPopUp= addTask.PopupAddTaskBottomSheet(page)
             page.overlay.append(taskAddPopUp)
+            addTask.appendpopups(page)
             page.update()
             taskAddPopUp.open = True
             
@@ -49,7 +50,7 @@ def main(page: ft.Page):
         page.go(top_view.route) 
     
     page.add(navbar.navbar(go_to))
-
+    
     go_to(0)
     print(page.controls)
     page.update()
