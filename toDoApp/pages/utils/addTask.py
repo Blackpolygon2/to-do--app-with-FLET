@@ -3,18 +3,19 @@ from flet import *
 import sqlalchemy
 from .database import Task, engine, session
 
+new_object = Task
+
 
 def dismissed(e):
     pass
 
 
-def time_changed(e):
+def time_changed(timePicker, e):
     pass
-
 
 
 def change_date(e):
-    pass
+    new_object.taskdaydue = e.control.value
 
 
 def choose_priority(priority,):
@@ -36,54 +37,77 @@ pichtimebutton = ButtonStyle(
 
 )
 prioritybuttonsstyle = ButtonStyle(
-    shape=RoundedRectangleBorder(radius=5), 
+    shape=RoundedRectangleBorder(radius=5),
 )
 bgcolorforfilledbuttons = "#6a7a67"
-def appendpopups (page):
+
+
+def appendpopups(page):
     page.overlay.append(date_picker)
     page.overlay.append(time_picker)
-    
+
+
+def add_task_name(e):
+    taskName = e.control.value
+    new_object.taskname = taskName
+
+
+def add_task_description(e):
+    taskdescription = e.control.value
+    new_object.taskdescription = taskdescription
+
+
+
 def taskAddPopupColumn(page):
-    
+
     return Column(
         [
-            TextField(label='Task Title', autofocus=True),
-            TextField(label="Task Description (Optional)"),
+            TextField(label='Task Title', autofocus=True,
+                      on_change=lambda _: add_task_name,),
+            TextField(label="Task Description (Optional)", multiline=True,
+                      on_change=lambda _: add_task_description,),
             Row(
                 [
                     OutlinedButton(text="pick Due Date", on_click=lambda _: date_picker.pick_date(
                     ), style=pichtimebutton),
-                    OutlinedButton(text="pick Due Time", on_click=lambda _: time_picker.pick_time(
+                    OutlinedButton(text="pick Due Time", on_click=lambda _: date_picker.pick_date(
                     ), style=pichtimebutton),
-                    OutlinedButton(text="pick Start time", on_click=lambda : print("hello"), style=pichtimebutton)
+                    OutlinedButton(text="pick Start time", on_click=lambda _: date_picker.pick_date(
+                    ), style=pichtimebutton)
                 ], alignment=MainAxisAlignment.CENTER, spacing=10
             ),
-            Text("Priority"),
-            SegmentedButton(
-                selected={"1"},
-                #style=prioritybuttonsstyle,
-                on_change=lambda e: choose_priority(e),
-                segments=[
-                ft.Segment(
-                    value="1",
-                    label=ft.Text("Low"),
-                ),
-                ft.Segment(
-                    value="2",
-                    label=ft.Text("Medium"),
-                ),
-                ft.Segment(
-                    value="3",
-                    label=ft.Text("High"),
-                    
-                ),
+            Column(
+                [
+                    Text("Priority"),
+                    SegmentedButton(
+                        selected={"1"},
+                        show_selected_icon=False,
+                        # style=prioritybuttonsstyle,
+                        on_change=lambda e: choose_priority(e),
+                        segments=[
+                            ft.Segment(
+                                value="1",
+                                label=ft.Text("Low"),
+                            ),
+                            ft.Segment(
+                                value="2",
+                                label=ft.Text("Medium"),
+                            ),
+                            ft.Segment(
+                                value="3",
+                                label=ft.Text("High"),
 
-            ],
+                            ),
+
+                        ],
+                    ),
+                ]
             ),
+
 
             IconButton(icon=icons.CHECK, on_click=addTaskFunction),
 
-        ], spacing=30, alignment=MainAxisAlignment.CENTER,horizontal_alignment=MainAxisAlignment.CENTER
+        ], spacing=30, alignment=MainAxisAlignment.CENTER, horizontal_alignment=MainAxisAlignment.CENTER
     )
 
 
