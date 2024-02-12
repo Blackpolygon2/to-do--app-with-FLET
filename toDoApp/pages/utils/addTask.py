@@ -2,16 +2,17 @@ import flet as ft
 from flet import *
 import sqlalchemy
 from .database import Task, engine, session
-
+# set these to be text and asing a text to the button uintead of using the button built in text 
 new_object = Task
 pickDueDate = "pick Due Date"
 pickDueTime = "pick Due Time"
 pickStarttime = "pick Due Time"
-page= ft.Page
+userPage= ft.Page
 
 def get_page(pagevar):
-    page= pagevar
-    print(id(page))
+    global userPage
+    userPage= pagevar
+    print(id(userPage))
     print(id(pagevar))
 def dismissed(e):
     pass
@@ -24,10 +25,11 @@ def time_changed(timePicker, e):
 def change_date(e):
     new_object.taskdaydue = e.control.value
     print(str(e.control.value))
-    pickDueDate = str(e.control.value)
-    pickDueDate = "ye"
-    print(id(page))
-    page.update()
+    global pickDueDate
+    pickDueDate=str(e.control.value)
+    
+    print(id(userPage))
+    userPage.update()
 
 
 def choose_priority(priority,):
