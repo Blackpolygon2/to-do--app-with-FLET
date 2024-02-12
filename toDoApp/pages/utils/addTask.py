@@ -4,8 +4,15 @@ import sqlalchemy
 from .database import Task, engine, session
 
 new_object = Task
+pickDueDate = "pick Due Date"
+pickDueTime = "pick Due Time"
+pickStarttime = "pick Due Time"
+page= ft.Page
 
-
+def get_page(pagevar):
+    page= pagevar
+    print(id(page))
+    print(id(pagevar))
 def dismissed(e):
     pass
 
@@ -16,6 +23,11 @@ def time_changed(timePicker, e):
 
 def change_date(e):
     new_object.taskdaydue = e.control.value
+    print(str(e.control.value))
+    pickDueDate = str(e.control.value)
+    pickDueDate = "ye"
+    print(id(page))
+    page.update()
 
 
 def choose_priority(priority,):
@@ -56,6 +68,17 @@ def add_task_description(e):
     taskdescription = e.control.value
     new_object.taskdescription = taskdescription
 
+def addTaskFunction():
+    new_object = Task(taskname="wash hands", taskdescription="wash your hands", tasktimestart="10:00",
+                      tasktimeend="11:00", taskpriority=1, istaskcompleted=False, taskdaydue="2023-05-01", istaskreocuring=False)
+    session.add(new_object)
+    session.commit()
+
+    # Example: Querying data from the database
+    result = session.query(Task).filter_by(taskname='wash hands')
+    print(result)
+
+
 
 
 def taskAddPopupColumn(page):
@@ -68,11 +91,11 @@ def taskAddPopupColumn(page):
                       on_change=lambda _: add_task_description,),
             Row(
                 [
-                    OutlinedButton(text="pick Due Date", on_click=lambda _: date_picker.pick_date(
+                    OutlinedButton(text=pickDueDate, on_click=lambda _: date_picker.pick_date(
                     ), style=pichtimebutton),
-                    OutlinedButton(text="pick Due Time", on_click=lambda _: date_picker.pick_date(
+                    OutlinedButton(text=pickDueTime, on_click=lambda _: date_picker.pick_date(
                     ), style=pichtimebutton),
-                    OutlinedButton(text="pick Start time", on_click=lambda _: date_picker.pick_date(
+                    OutlinedButton(text=pickStarttime, on_click=lambda _: date_picker.pick_date(
                     ), style=pichtimebutton)
                 ], alignment=MainAxisAlignment.CENTER, spacing=10
             ),
@@ -105,7 +128,7 @@ def taskAddPopupColumn(page):
             ),
 
 
-            IconButton(icon=icons.CHECK, on_click=addTaskFunction),
+            ElevatedButton(icon=icons.CHECK, on_click=addTaskFunction, text="Add Task",),
 
         ], spacing=30, alignment=MainAxisAlignment.CENTER, horizontal_alignment=MainAxisAlignment.CENTER
     )

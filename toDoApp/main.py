@@ -4,6 +4,7 @@ from pages import homePage, TodayPage
 from pages.utils import navbar, addTask, database
 import threading
 
+
 def main(page: ft.Page):
     page.update()
     page.title = "To Do App"
@@ -34,6 +35,7 @@ def main(page: ft.Page):
             addTask.appendpopups(page)
             page.update()
             taskAddPopUp.open = True
+            addTask.get_page(page)
             
             page.update()
         if page_index == 3:
@@ -41,7 +43,8 @@ def main(page: ft.Page):
             page.add(
                         AppBar(title=Text("calender")),
                         TodayPage.today(),
-                        #navbar.navbar(page,go_to()),  
+                        #navbar.navbar(page,go_to()),
+                        
             )
     page.update()
     def view_pop(view):
