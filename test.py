@@ -1,28 +1,31 @@
-import datetime
 import flet as ft
 
 def main(page: ft.Page):
-    def change_date(e):
-        print(f"Date picker changed, value is {date_picker.value}")
+    page.fonts = {
+        "RobotoSlab": "https://github.com/google/fonts/raw/main/apache/robotoslab/RobotoSlab%5Bwght%5D.ttf"
+    }
 
-    def date_picker_dismissed(e):
-        print(f"Date picker dismissed, value is {date_picker.value}")
-
-    date_picker = ft.DatePicker(
-        on_change=change_date,
-        on_dismiss=date_picker_dismissed,
-        first_date=datetime.datetime(2023, 10, 1),
-        last_date=datetime.datetime(2024, 10, 1),
+    t = ft.Text(
+        "This is rendered with Roboto Slab",
+        size=30,
+        font_family="RobotoSlab",
+        weight=ft.FontWeight.W_100,
     )
 
-    page.overlay.append(date_picker)
+    def width_changed(e):
+        t.weight = f"w{int(e.control.value)}"
+        t.update()
 
-    date_button = ft.ElevatedButton(
-        "Pick date",
-        icon=ft.icons.CALENDAR_MONTH,
-        on_click=lambda _: date_picker.pick_date(),
+    page.add(
+        t,
+        ft.Slider(
+            min=100,
+            max=900,
+            divisions=8,
+            label="{value}",
+            width=500,
+            on_change=width_changed,
+        ),
     )
-
-    page.add(date_button)
 
 ft.app(target=main)

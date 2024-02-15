@@ -35,7 +35,6 @@ def main(page: ft.Page):
             addTask.appendpopups(page)
             page.update()
             taskAddPopUp.open = True
-            addTask.get_page(page)
             
             page.update()
         if page_index == 3:
