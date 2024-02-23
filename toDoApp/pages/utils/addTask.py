@@ -13,6 +13,60 @@ prioritybuttonsstyle = ButtonStyle(
 )
 bgcolorforfilledbuttons = "#6a7a67"
 
+
+
+
+
+
+
+def change_date(e):
+    new_object.taskdaydue = e.control.value
+    global pickDueDate
+    pickDueDate.value = str(e.control.value)
+    pickDueDate.update()
+    TextDueDate.visible = True
+    TextDueDate.update()
+
+
+def dismissed(e):
+    global pickDueDate
+    pickDueDate = Text("pick Due Date")
+
+def change_time(e):
+    
+    pass
+def choose_priority(priority,):
+    print(priority.control.selected)
+    new_object.taskpriority = str(priority.control.selected)
+
+
+def appendpopups(page):
+    page.overlay.append(date_picker)
+    page.overlay.append(time_picker)
+
+def add_task_name(e):
+    taskName = str(e.control.value)
+    new_object.taskname = taskName
+
+
+def add_task_description(e):
+    taskdescription = e.control.value
+    new_object.taskdescription = taskdescription
+
+time_picker = ft.TimePicker(
+        confirm_text="Confirm",
+        error_invalid_text="Time out of range",
+        help_text="Pick your time slot",
+        on_change=change_time,
+        on_dismiss=dismissed,
+    )
+
+
+date_picker = DatePicker(
+    on_change=change_date,
+    on_dismiss=dismissed,
+)
+
 reocuringColumn = Column(
     [
         Text("days of the week to reapet"),
@@ -61,49 +115,24 @@ reocuringColumn = Column(
             ], scroll=ScrollMode.AUTO
         ), Text("start time"),
         Row([
-            OutlinedButton("pick start time", on_click=lambda _: Text(
-                "pick start time")), reocouringtime
+            OutlinedButton("pick start time", on_click=lambda _: time_picker.pick_time() ), 
+            reocouringtime
         ])
-    ])
+    ], visible=False)
+def showreocuringColumn(e):
+    reocuringColumn.visible = e.control.value
+    print(e.control.value)
+    reocuringColumn.update()
 
+def addTaskFunction():
+    new_object = Task(taskname="wash hands", taskdescription="wash your hands", tasktimestart="10:00",
+                      tasktimeend="11:00", taskpriority=1, istaskcompleted=False, taskdaydue="2023-05-01", istaskreocuring=False)
+    session.add(new_object)
+    session.commit()
 
-def change_date(e):
-    new_object.taskdaydue = e.control.value
-    global pickDueDate
-    pickDueDate.value = str(e.control.value)
-    pickDueDate.update()
-    TextDueDate.visible = True
-    TextDueDate.update()
-
-
-def dismissed(e):
-    global pickDueDate
-    pickDueDate = Text("pick Due Date")
-
-
-def choose_priority(priority,):
-    print(priority.control.selected)
-    new_object.taskpriority = str(priority.control.selected)
-
-
-def appendpopups(page):
-    page.overlay.append(date_picker)
-
-
-def add_task_name(e):
-    taskName = e.control.value
-    new_object.taskname = taskName
-
-
-def add_task_description(e):
-    taskdescription = e.control.value
-    new_object.taskdescription = taskdescription
-
-
-date_picker = DatePicker(
-    on_change=change_date,
-    on_dismiss=dismissed,
-)
+    # Example: Querying data from the database
+    result = session.query(Task).filter_by(taskname='wash hands')
+    print(result)
 
 
 def taskAddPopupColumn(page):
@@ -154,10 +183,10 @@ def taskAddPopupColumn(page):
                 ]
             ),
 
-            Switch(label="Task Reocuring", value=False),
+            Switch(label="Task Reocuring", on_change=lambda e: showreocuringColumn(e) , value=False ),
+            reocuringColumn,
             ElevatedButton(icon=icons.CHECK,
                            on_click=addTaskFunction, text="Add Task",),
-            reocuringColumn,
 
 
 
@@ -184,23 +213,5 @@ def PopupAddTaskBottomSheet(page):
     )
 
 
-def addTaskFunction():
-    new_object = Task(taskname="wash hands", taskdescription="wash your hands", tasktimestart="10:00",
-                      tasktimeend="11:00", taskpriority=1, istaskcompleted=False, taskdaydue="2023-05-01", istaskreocuring=False)
-    session.add(new_object)
-    session.commit()
-
-    # Example: Querying data from the database
-    result = session.query(Task).filter_by(taskname='wash hands')
-    print(result)
 
 
-def addTaskFunction():
-    new_object = Task(taskname="wash hands", taskdescription="wash your hands", tasktimestart="10:00",
-                      tasktimeend="11:00", taskpriority=1, istaskcompleted=False, taskdaydue="2023-05-01", istaskreocuring=False)
-    session.add(new_object)
-    session.commit()
-
-    # Example: Querying data from the database
-    result = session.query(Task).filter_by(taskname='wash hands')
-    print(result)
