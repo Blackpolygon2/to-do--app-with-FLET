@@ -14,17 +14,13 @@ prioritybuttonsstyle = ButtonStyle(
 bgcolorforfilledbuttons = "#6a7a67"
 
 
-
-
-
-
-
 def change_date(e):
     new_object.taskdaydue = e.control.value
     global pickDueDate
     pickDueDate.value = str(e.control.value)
     pickDueDate.update()
     TextDueDate.visible = True
+    new_object.taskdaydue = str(e.control.value)
     TextDueDate.update()
 
 
@@ -125,13 +121,11 @@ def showreocuringColumn(e):
     reocuringColumn.update()
 
 def addTaskFunction():
-    new_object = Task(taskname="wash hands", taskdescription="wash your hands", tasktimestart="10:00",
-                      tasktimeend="11:00", taskpriority=1, istaskcompleted=False, taskdaydue="2023-05-01", istaskreocuring=False)
     session.add(new_object)
     session.commit()
 
     # Example: Querying data from the database
-    result = session.query(Task).filter_by(taskname='wash hands')
+    result = session.query(Task).all()
     print(result)
 
 
